@@ -6,16 +6,32 @@ from tkinter import filedialog
 import pyperclip
 import rawpy
 from psd_tools import PSDImage
+import platform
 
 # Increase the pixel limit
 Image.MAX_IMAGE_PIXELS = None  # This will remove the limit
 
+def is_apple_silicon():
+    return platform.system() == "Darwin" and platform.machine().startswith("arm")
+
+
 def print_versions():
-    """Print versions of torch and CUDA."""
-    print(torch.__version__)
-    print(torch.version.cuda)
-    print(f"Torch version : {torch.version.cuda}")
-    print(f"CUDA avail : {torch.cuda.is_available()}")
+    """Print versions of torch and device information."""
+    print(f"Python version: {platform.python_version()}")
+    print(f"PyTorch version: {torch.__version__}")
+    print(f"Running on: {platform.machine()}")
+    if is_apple_silicon():
+        print("Detected Apple Silicon (M1/M2/M3)")
+        if torch.backends.mps.is_available():
+            print("MPS (Metal Performance Shaders) is available")
+        else:
+            print("MPS is not available")
+    elif torch.cuda.is_available():
+        print(f"CUDA version: {torch.version.cuda}")
+        print(f"CUDA available: {torch.cuda.is_available()}")
+    else:
+        print("Running on CPU")
+
 
 
 def select_image_files():
@@ -70,9 +86,17 @@ def setup_model():
     """Load the model and processor, and set the device."""
     processor = AutoProcessor.from_pretrained("Salesforce/blip2-opt-2.7b")
     model = Blip2ForConditionalGeneration.from_pretrained("Salesforce/blip2-opt-2.7b")
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    
+    if is_apple_silicon():
+        device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
+    else:
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    
     model.to(device)
     return model, processor, device
+
+
+
 
 
 def generate_caption(model, processor, device, image):
