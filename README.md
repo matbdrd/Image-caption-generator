@@ -1,39 +1,38 @@
-# Image Captioning Tool
+# Image Caption Generator
 
-## Overview
-
-This Image Captioning Tool is a Python-based application that generates textual descriptions for images using advanced AI models. It supports a wide range of image formats, including RAW files from various camera manufacturers, and provides an easy-to-use interface for batch processing multiple images.
+This project is an Image Caption Generator that uses the BLIP2 (Bootstrapping Language-Image Pre-training) model to generate descriptive captions for images. It supports various image formats, including RAW and PSD files, and is optimized for different hardware configurations, including Apple Silicon.
 
 ## Features
 
-- Support for multiple image formats: PNG, JPEG, TIFF, PSD, DNG, NEF (Nikon), CR2 (Canon), ARW (Sony)
-- Utilizes the BLIP2 (Salesforce/blip2-opt-2.7b) model for high-quality image captioning
-- GPU acceleration support for faster processing
+- Supports multiple image formats: PNG, JPEG, TIFF, PSD, and various RAW formats (NEF, CR2, ARW, DNG)
+- Utilizes the BLIP2 model for accurate image captioning
+- Optimized for different hardware: CUDA GPUs, Apple Silicon (M1/M2/M3), and CPU
 - Batch processing of multiple images
-- Automatic saving of captions as text files alongside the original images
-- Clipboard integration for easy access to generated captions
-- Cross-platform compatibility (Windows, macOS, Linux)
+- Automatically saves captions as text files alongside the original images
+- Copies all generated captions to the clipboard for easy sharing
 
 ## Requirements
 
 - Python 3.7+
 - PyTorch
-- Transformers library
-- Pillow (PIL)
+- Transformers
+- Pillow
 - tkinter
 - pyperclip
 - rawpy
 - psd-tools
 
+For a complete list of dependencies, see the `requirements.txt` file.
+
 ## Installation
 
-1. Clone the repository:
+1. Clone this repository:
    ```
-   git clone https://github.com/yourusername/image-captioning-tool.git
-   cd image-captioning-tool
+   git clone https://github.com/yourusername/image-caption-generator.git
+   cd image-caption-generator
    ```
 
-2. Create a virtual environment (optional but strongly recommended):
+2. Create a virtual environment (optional but recommended):
    ```
    python -m venv venv
    source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
@@ -41,55 +40,59 @@ This Image Captioning Tool is a Python-based application that generates textual 
 
 3. Install the required packages:
    ```
-   pip install torch transformers Pillow tkinter pyperclip rawpy psd-tools
+   pip install -r requirements.txt
    ```
 
 ## Usage
 
-1. Run the script:
-   ```
-   python main.py
-   ```
+Run the script using Python:
 
-2. The application will initialize and load the necessary models. This may take a few moments.
+```
+python main.py
+```
 
-3. A file dialog will open, allowing you to select one or multiple images for captioning.
+The program will guide you through the following steps:
 
-4. The tool will process each image, generating captions and saving them as text files in the same directory as the original images.
+1. It will print version information and set up the model.
+2. A file dialog will open, allowing you to select one or more image files.
+3. For each selected image, the program will:
+   - Generate a caption
+   - Save the caption to a .txt file next to the original image
+   - Display the caption in the console
+4. All generated captions will be copied to your clipboard.
+5. The program will then allow you to select more images or exit.
 
-5. All generated captions will be copied to your clipboard for easy access.
+## Supported Image Formats
 
-6. The process will repeat, allowing you to select more images or exit the application.
+- PNG (.png)
+- JPEG (.jpg, .jpeg)
+- TIFF (.tif, .tiff)
+- PSD (.psd)
+- RAW formats:
+  - Nikon (.nef)
+  - Canon (.cr2)
+  - Sony (.ARW)
+  - Adobe Digital Negative (.dng)
 
-## How It Works
+## Hardware Optimization
 
-1. The tool uses the BLIP2 model, a state-of-the-art AI for image captioning.
-2. Images are loaded and preprocessed to be compatible with the model.
-3. The model generates a textual description for each image.
-4. Captions are saved as text files and copied to the clipboard.
+The script automatically detects your hardware configuration and optimizes accordingly:
 
-## Customization
-
-You can modify the `main.py` script to adjust various parameters:
-
-- Change the model by updating the `setup_model()` function.
-- Adjust the maximum caption length by modifying the `max_new_tokens` parameter in the `generate_caption()` function.
-- Add support for additional image formats in the `select_image_files()` and `load_image()` functions.
+- For NVIDIA GPUs, it uses CUDA acceleration.
+- For Apple Silicon (M1/M2/M3), it uses Metal Performance Shaders (MPS) if available.
+- If no compatible GPU is found, it falls back to CPU processing.
 
 ## Troubleshooting
 
-- If you encounter memory issues with large images, try adjusting the `Image.MAX_IMAGE_PIXELS` value.
-- For GPU-related issues, ensure you have the correct CUDA version installed for your PyTorch installation.
+- If you encounter memory issues with large images, the script already sets `Image.MAX_IMAGE_PIXELS = None`. However, be cautious when processing extremely large images, as this can consume a lot of memory.
+- Ensure you have the latest version of PyTorch installed, especially if you're using Apple Silicon.
+- For RAW file support, make sure you have the necessary system libraries installed for rawpy.
 
 ## Contributing
 
-Contributions to improve the Image Captioning Tool are welcome. Please feel free to submit pull requests or open issues to discuss proposed changes.
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-[Specify your license here, e.g., MIT, GPL, etc.]
+This project is open source and available under the [MIT License](LICENSE).
 
-## Acknowledgments
-
-- This project uses the BLIP2 model developed by Salesforce Research.
-- Thanks to the open-source community for the various libraries used in this project.
