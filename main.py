@@ -22,21 +22,26 @@ def select_image_files():
     """Open a GUI window to select multiple local image files and return their paths."""
     root = tk.Tk()
     root.withdraw()  # Hide the main window
-    file_paths = filedialog.askopenfilenames(
-        title="Select images",
-        filetypes=[
-            ("Supported formats", "*.png;*.jpg;*.jpeg;*.psd;*.nef;*.cr2;*.ARW;*.tif;*.tiff;*.dng"),
-            ("PNG files", "*.png"),
-            ("JPEG files", "*.jpg;*.jpeg"),
-            ("TIFF files", "*.tif;*.tiff"),
-            ("PSD files", "*.psd"),
-            ("DNG files", "*.dng"),
-            ("Nikon RAW files", "*.nef"),
-            ("Canon RAW files", "*.cr2"),
-            ("Sony RAW files", "*.ARW"),
-            ("All files", "*.*")
-        ]
-    )
+    
+    file_types = [
+        ("All supported formats", "*.png *.jpg *.jpeg *.psd *.nef *.cr2 *.ARW *.tif *.tiff *.dng"),
+        ("PNG files", "*.png"),
+        ("JPEG files", "*.jpg *.jpeg"),
+        ("TIFF files", "*.tif *.tiff"),
+        ("PSD files", "*.psd"),
+        ("RAW files", "*.nef *.cr2 *.ARW *.dng"),
+        ("All files", "*.*")
+    ]
+    
+    try:
+        file_paths = filedialog.askopenfilenames(
+            title="Select images",
+            filetypes=file_types
+        )
+    except Exception as e:
+        print(f"Error in file dialog: {e}")
+        file_paths = []
+    
     root.destroy()  # Explicitly destroy the root after use
     return file_paths
 

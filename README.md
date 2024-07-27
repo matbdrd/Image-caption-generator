@@ -33,7 +33,7 @@ This Image Captioning Tool is a Python-based application that generates textual 
    cd image-captioning-tool
    ```
 
-2. Create a virtual environment (optional but recommended):
+2. Create a virtual environment (optional but strongly recommended):
    ```
    python -m venv venv
    source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
