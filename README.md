@@ -13,7 +13,7 @@ This project is an Image Caption Generator that uses the BLIP2 (Bootstrapping La
 
 ## Requirements
 
-- Python 3.7+
+- Python 3.9+
 - PyTorch
 - Transformers
 - Pillow
@@ -23,6 +23,9 @@ This project is an Image Caption Generator that uses the BLIP2 (Bootstrapping La
 - psd-tools
 
 For a complete list of dependencies, see the `requirements.txt` file.
+
+## Disk space
+You'll need around 16 Go of disk space to install the models.
 
 ## Installation
 
